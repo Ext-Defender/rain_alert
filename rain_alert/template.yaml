@@ -1,0 +1,61 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  rain_alert
+
+  Sample SAM Template for rain_alert
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 20
+    MemorySize: 128
+
+Resources:
+  RainAlert:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: src/
+      Handler: app.lambda_handler
+      Runtime: python3.11
+      Architectures:
+        - x86_64
+      Environment: 
+        Variables:
+          OWM_API_KEY: !Ref OWMAPIKey
+          MY_LAT: !Ref MyLat
+          MY_LON: !Ref MyLon
+          TWILIO_API_KEY: !Ref TwilioAPIKey
+          TWILIO_SID: !Ref TwilioSID
+          TWILIO_PHONE_NUMBER: !Ref TwilioPhoneNumber
+          MY_PHONE_NUMBER: !Ref MyPhoneNumber
+
+Parameters:
+  OWMAPIKey:
+    Type: String
+    Description: API key for Open Weather Map.
+    Default: "none"
+  MyLat: 
+    Type: String
+    Description: My latitude.
+    Default: "none"
+  MyLon: 
+    Type: String
+    Description: My longitude.
+    Default: "none"
+  TwilioAPIKey:
+    Type: String
+    Description: Twilio API Key.
+    Default: "none"
+  TwilioSID: 
+    Type: String
+    Description: Twilio SID.
+    Default: "none"
+  TwilioPhoneNumber:
+    Type: String
+    Description: Twilio phone number.
+    Default: "none"
+  MyPhoneNumber:
+    Type: String
+    Description: My phone number.
+    Default: "none"
